@@ -1,0 +1,106 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  
+  <title>Stock DD</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+
+</head>
+
+<body>
+  {% block content %}
+  <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">DD Finder</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+      <form method="post" class="form-inline my-2 my-lg-0">
+        {% csrf_token %}
+        {{ form.ticker }}
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+
+  <div class="jumbotron">
+    <h1 class="display-4">Hello, traders!</h1>
+    <p class="lead">This is a simple crawler, that will look for relevant tweets and bring it to this feed!</p>
+    <hr class="my-4">
+    <p>Simply use the search bar and let the tweets come through.</p>
+    <h4>{{ticker_name}}</h4>
+    <h5>{{ ticker_price }}</h5>
+    
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+          <a class="nav-link" id="company-tab" data-toggle="tab" href="#company" role="tab" aria-controls="company" aria-selected="false">Company Details</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Tweets</a>
+      </li>
+      <li class="nav-item" role="presentation">
+          <a class="nav-link" id="fund-tab" data-toggle="tab" href="#fund" role="tab" aria-controls="fund" aria-selected="false">Institutional Ownership</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Articles</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Technical Indicators</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="sec-tab" data-toggle="tab" href="#sec" role="tab" aria-controls="sec" aria-selected="false">SEC Filings</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="options-tab" data-toggle="tab" href="#options" role="tab" aria-controls="options" aria-selected="false">Unusual Options Activity</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" id="events-tab" data-toggle="tab" href="#events" role="tab" aria-controls="events" aria-selected="false">Upcoming Events</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+        <div class = "row">
+          {% for tweet in ticker_tweets %}
+            <div class="card m-1 border border-primary" style="width: 20rem;">
+              <div class="card-body">
+                <h5 class="card-title">{{ tweet.handle }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ tweet.date }}</h6>
+                <p class="card-text">{{ tweet.tweet }}</p>
+              </div>
+            </div>
+          {% empty %}
+              <p></p>
+          {% endfor %}
+        </div>
+
+      </div>
+      <div class="tab-pane fade" id="company" role="tabpanel" aria-labelledby="company-tab">Company Details go here</div>
+      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">Articles we found go here</div>
+      <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">Numericals for stock here</div>
+      <div class="tab-pane fade" id="fund" role="tabpanel" aria-labelledby="fund-tab">Numericals for stock here</div>
+      <div class="tab-pane fade" id="sec" role="tabpanel" aria-labelledby="sec-tab">SEC Filings for stock here</div>
+      <div class="tab-pane fade" id="options" role="tabpanel" aria-labelledby="options-tab">Unusual Options Activity</div>
+      <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab">Events Calendar such as earnings, FDA approval, Patent etc</div>
+      </div>
+  </div>
+
+
+{% endblock %}
+</body>
+</html>
+
