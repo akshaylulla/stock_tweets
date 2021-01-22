@@ -6,4 +6,5 @@ How to Use:
 
 - Enter stock ticker symbol in top right corner "search bar" such as (AAPL for Apple or TSLA for TSLA etc).
 - You should see Tweets from Twitter under the Tweets tab.
-- You should also see the stock price above the Tweets when the stock market is open (Monday-Friday 9:30am-4:00pm)!
+- You should also see the stock price above the Tweets!
+- There is a Company Details tab which displays company information such as industry, ceo etc (CEO data is only available for blue-chip stocks)
